@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "index";
+    Layout = null;
+}
+<link href="~/Scripts/uploadify/uploadify.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myUploadFile").uploadify({
+            //属性
+            'auto': true, //自动上传
+            'height': 30, //按钮的高度
+            'width': 80, //按钮的宽度
+            'swf': '../Scripts/Uploadify/uploadify.swf', //必输入！flash.注意路径！！
+            'fileObjName': 'uploadfile', //传递给后台程序的参数, 否则会接收不到！
+            'uploader': '/Test/Index', //后台处理程序. 注意路径！！
+            'queueID': 'queue', //显示上传队列的容器
+            'buttonText': '选择文件', //按钮显示文字
+            //'fileSizeLimit': '5MB',
+            //'queueSizeLimit': 5, //同时允许上传5个文件
+            'fileTypeExts': '*.xls;*.xlsx',
+            'removeCompleted': false, //上传后保持队列不消失
+            'requeueErrors': true,
+            //事件
+            'onSelect': function (file)//从浏览窗口中选择文件
+            {
+                if (file.size / 1024 / 1024 > 10) //文件10M
+                {
+                    alert('文件过大，请分批上传！');
+                    $('#myUploadFile').uploadify('cancel', file.id); //cancel方法可以带上file的id作为参数，指定取消该项。
+                }
+            },
+            'onCancel': function (file)//从队列中取消文件 
+            {
+                //alert('文件： ' + file.name + ' 被取消.');
+                //document.getElementById("fileCount").value -= 1;
+            },
+            'onClearQueue': function (queueItemCount) {//只在未上传前有效，上传后其实还保存在队列中。
+                //alert(queueItemCount + ' file(s) were removed from the queue');
+            },
+            'onDialogClose': function (queueData) //当浏览窗口关闭时
+            {
+                //alert(queueData.filesQueued + ' files were queued of ' + queueData.filesSelected + ' selected files. There are ' + queueData.queueLength + ' total files in the queue.');
+                //document.getElementById("fileCount").value = queueData.queueLength; //队列中文件数量
+                //document.getElementById("lblStatus").innerText = "";
+            },
+            'onQueueComplete': function (queueData)//全部上传完毕后触发
+            {
+                //alert(queueData.uploadsSuccessful + ' 个文件成功上传。上传后请点击“提交”。');
+                //document.getElementById("fileCount").value = "";
+                //window.location.href = "Default.aspx"//重加载页面
+                // window.location.reload(); //
+                //alert("reload");
+                //alert("upload Done");
+            },
+            'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                alert('The file ' + file.name + ' 上传失败: ' + errorString);
+                //alert('errorCode:'+errorCode);
+                //alert('errormsg:' + errorMsg);//500
+                //alert('errorString:' + errorString);//HTTP Error (500)
+            },
+            'onUploadSuccess': function (file, data, response) {
+                //alert('The file ' + file.name + ' 上传成功！');
+                //alert('data is :' + data);//data是controller传来的str
+                $('#msg').text(data);
+                //alert('response is :' + response); //response is true
+            },
+            'onSelectError': function (file, errorCode, errorMsg) //错误信息
+            {
+                switch (errorCode) {
+                    case -100:
+                        alert("上传的文件数量已超过系统限制的" + $('#myUploadFile').uploadify('settings', 'queueSizeLimit') + "个文件");
+                        break;
+                    case -110:
+                        alert("文件(" + file.name + ")大小超出系统限制的" + $('#myUploadFile').uploadify('settings', 'fileSizeLimit') + "大小！");
+                        break;
+                    case -120:
+                        alert("文件(" + file.name + ")大小异常！");
+                        break;
+                    case -130:
+                        alert("文件(" + file.name + ")类型不正确！");
+                        break;
+                }
+            }
+        });
+    });
+</script>
+
+
+    <div> 
+        <input type="file" id="myUploadFile" />
+        <p id="queue"></p>
+    </div>
+

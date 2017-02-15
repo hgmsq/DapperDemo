@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>后台管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="/Content/lib/bootstrap/css/bootstrap.css">
+
+    <link rel="stylesheet" type="text/css" href="/Content/stylesheets/theme.css">
+    <link rel="stylesheet" href="/Content/lib/font-awesome/css/font-awesome.css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    @*<script src="/Content/lib/jquery-1.7.2.min.js" type="text/javascript"></script>*@
+
+    <!-- Demo page code -->
+
+    <style type="text/css">
+        #line-chart {
+            height: 300px;
+            width: 800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
+
+        .brand {
+            font-family: georgia, serif;
+        }
+
+            .brand .first {
+                color: #ccc;
+                font-style: italic;
+            }
+
+            .brand .second {
+                color: #fff;
+                font-weight: bold;
+            }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav pull-right">
+
+                <li><a href="#" class="hidden-phone visible-tablet visible-desktop" role="button">设置</a></li>
+                <li id="fat-menu" class="dropdown">
+                    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-user"></i>  @ViewData["TrueName"]
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">My Account</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" class="visible-phone" href="#">设置</a></li>
+                        <li class="divider visible-phone"></li>
+                        <li><a tabindex="-1" href="#" onclick="loginout()">注销</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <a class="brand" href="index.html"><span class="first">后台</span> <span class="second">管理</span></a>
+        </div>
+    </div>
+
+
+
+    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" title="网站模板">网站模板</a></div>
+    <div class="sidebar-nav">
+
+      
+
+        <a href="#user-menu" class="nav-header collapsed" data-toggle="collapse">用户管理 <i class="icon-chevron-up"></i></a>
+        <ul id="user-menu" class="nav nav-list collapse">
+            <li><a href="#">新增用户</a></li>
+            <li><a href="/User/index">用户列表</a></li>
+            <li><a href="/Role/Index">角色管理</a></li>            
+        </ul>
+        <a href="#product-menu" class="nav-header collapsed" data-toggle="collapse">商品管理 <i class="icon-chevron-up"></i></a>
+        <ul id="product-menu" class="nav nav-list collapse">
+            <li><a href="#">新增商品</a></li>
+            <li><a href="#">商品列表</a></li>
+            <li><a href="#">商品分类</a></li>
+        </ul>
+        <a href="#product-menu" class="nav-header collapsed" data-toggle="collapse">订单管理 <i class="icon-chevron-up"></i></a>
+        <ul id="product-menu" class="nav nav-list collapse">
+            <li><a href="#">订单列表</a></li>
+        </ul>
+    </div>
+
+
+
+    <div class="content">
+
+        @RenderBody()
+    </div>
+
+
+
+    <script src="/Content/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        $("[rel=tooltip]").tooltip();
+        $(function() {
+            $('.demo-cancel-click').click(function(){return false;});
+        });
+        //注销登陆
+        function loginout() {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/loginout",
+                data: {
+                },
+                success: function (msg) {
+                    window.location = "/Login/index";
+                }
+
+            });
+        }
+    </script>
+
+</body>
+</html>

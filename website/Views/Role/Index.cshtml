@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+@using Model;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Role>
+
+<div class="header">
+
+    <h1 class="page-title">角色管理</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="admin/index">首页</a> <span class="divider">/</span></li>
+    <li class="active">角色列表</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="btn-toolbar">
+            <button class="btn btn-primary"><i class="icon-plus"></i><a href="/Role/Add">新增角色</a></button>
+
+            <div class="btn-group">
+            </div>
+        </div>
+        <div class="well">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>角色名称</th>
+                        <th>描述</th>
+                        <th style="width: 26px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name </td>
+                                <td>@item.Instruction </td>
+                                <td>
+                                    <a href="/Role/edit/@item.Id "><i class="icon-pencil"></i></a>
+                                    <a href="#myModal" role="button" onclick="Del(@item.Id)" data-toggle="modal"><i class="icon-remove"></i></a>
+                                </td>
+                            </tr>
+
+                        }
+
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="pagination">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+        <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Delete Confirmation</h3>
+            </div>
+            <div class="modal-body">
+                <p class="error-text"><i class="icon-warning-sign modal-icon"></i>Are you sure you want to delete the user?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+
+
+
+        <footer>
+            <hr>
+
+            <p class="pull-right">Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+
+
+            <p>© 2016 <a href="#" target="_blank">Portnine</a></p>
+        </footer>
+
+    </div>
+</div>
+<script type="text/javascript">
+    //删除角色
+    function Del(id) {
+        $.ajax({
+            type: "POST",
+            url: "Role/DelRole",
+            data: { id: id },
+            success: function (data) {
+                if (data.success) {
+                    alert(data.msg);
+                    window.location = location;
+                }
+                else {
+                    alert(data.msg);
+                }
+            }
+        });
+
+    }
+</script>
+

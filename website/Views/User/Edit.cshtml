@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+@using Model;
+@model Users
+<div class="header">
+    <h1 class="page-title">编辑用户</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="/Admin/Index">首页</a> <span class="divider">/</span></li>
+    <li><a href="/User/Index">用户管理</a> <span class="divider">/</span></li>
+</ul>
+<form id="form_edit_user" action="/User/Edit" method="post">
+    <div class="container-fluid">
+        <div class="form-group">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label for="txtusername">用户名：</label>
+            <input type="text" class="form-control" id="txtusername" name="UserName" value="@Model.UserName">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">密码：</label>
+            <input type="password" class="form-control" id="txtpassword" name="Password" value="@Model.Password">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">真实姓名：</label>
+            <input type="text" class="form-control" id="txttruename" name="TrueName" value="@Model.TrueName">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">角色：</label>
+            <select name="Role" id="ddlrole" class="form-control">
+               
+                @Html.Raw(ViewData["rolehtml"].ToString()))
+                
+            
+            </select>
+        </div>
+        <button id="btnok" onclick="EditUser()" class="btn">提交</button>
+
+    </div>
+</form>
+
+<script src="~/Scripts/jquery.form.js"></script>
+<script>
+    $("#form_edit_user").ajaxForm(function (data) {
+        if (data.success) {
+            alert(data.msg);
+            window.location = "/User/Index";
+        } else {
+            alert(data.msg);
+        }
+
+    });
+
+</script>
+

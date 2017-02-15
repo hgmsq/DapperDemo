@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+@using Model;
+@model Role
+
+<div class="header">
+    <h1 class="page-title">编辑用户</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="/Admin/Index">首页</a> <span class="divider">/</span></li>
+    <li><a href="/User/Index">用户管理</a> <span class="divider">/</span></li>
+</ul>
+<form id="form_edit_role" action="/Role/Edit" method="post">
+    <div class="container-fluid">
+        <div class="form-group">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label for="txtusername">角色名称：</label>
+            <input type="text" class="form-control" id="RoleName" name="RoleName" value="@Model.Name ">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">描述：</label>
+            <textarea rows="4" cols="4" name="Instruction">@Model.Instruction</textarea>
+            @*<input type="text" class="form-control" id="Instruction" name="Instruction" value="@Model.Instruction ">*@
+        </div>
+        <button type="submit" class="btn">提交</button>
+        </div>
+        @*<button id="btnok" onclick="EditRole()" class="btn">提交</button>*@
+</form>
+<script src="~/Scripts/jquery.form.js"></script>
+<script>
+    $("#form_edit_role").ajaxForm(function (data) {
+        if (data.success) {
+            alert(data.msg);
+            window.location = "/Role/Index";
+        } else {
+            alert(data.msg);
+        }
+
+    });
+
+</script>

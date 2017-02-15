@@ -1,0 +1,20 @@
+1、用户表Users
+Id、UserName、PassWord、TrueName、Role、CreateDate
+2、角色表 Roles
+Id、Name、Instruction
+3、商品表 Products
+Id、ProductName、
+Instruction、
+CategoryId、
+Price、
+CreateDate、
+Creater、
+Stock(库存)
+4、商品分类表
+Id、CategoryName
+5、商品图片表 
+
+Id、Title、PorductId、FilePath、CreateDate
+6、订单表 Orders 
+
+Id、Number、ProductName、Price、UserId、CreateDate

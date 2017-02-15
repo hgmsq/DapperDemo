@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+@using Model;
+@model List<Role>
+
+
+<div class="header">
+
+    <h1 class="page-title">新增用户</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="/Admin/Index">首页</a> <span class="divider">/</span></li>
+    <li><a href="/User/Index">用户管理</a> <span class="divider">/</span></li>    
+</ul>
+<form id="form_add_user" action="/User/addUser" method="post">
+    <div class="container-fluid">
+        <div class="form-group">
+            <label for="txtusername">用户名：</label>
+            <input type="text" class="form-control" id="txtusername" name="UserName" value="">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">密码：</label>
+            <input type="password" class="form-control" id="txtpassword" name="TrueName" value="">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">真实姓名：</label>
+            <input type="text" class="form-control" id="txttruename" name="Password" value="">
+        </div>
+        <div class="form-group">
+            <label for="txtusername">角色：</label>
+            <select name="Role" id="ddlrole" class="input-xlarge">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>    </div>
+        <button id="btnok" onclick="AddUser()" class="btn">提交</button>
+
+    </div>
+</form>
+    
+<script src="~/Scripts/jquery.form.js"></script>
+<script>
+    $("#form_add_user").ajaxForm(function (data) {
+        if (data.success) {
+            alert(data.msg);
+            window.location = "/User/Index";
+        } else {
+            alert(data.msg);
+        }
+
+    });
+
+</script>
+
